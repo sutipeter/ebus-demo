@@ -97,14 +97,8 @@
             </div>
         </div>
 
-        <!-- Demo Content (loaded from external file after auth) -->
-        <div v-if="isAuthenticated" id="demo-container">
-            <iframe
-                src="demo.html"
-                frameborder="0"
-                style="width: 100vw; height: 100vh; position: fixed; top: 0; left: 0;"
-            ></iframe>
-        </div>
+        <!-- Redirect to demo after auth (no iframe for mobile compatibility) -->
+        <div v-if="isAuthenticated"></div>
     </div>
 
     <script>
@@ -148,6 +142,11 @@
                             sessionStorage.setItem('ebus_auth_token', 'authenticated');
                             this.isAuthenticated = true;
                             this.loading = false;
+
+                            // Redirect to demo.html
+                            setTimeout(() => {
+                                window.location.href = 'demo.html';
+                            }, 500);
                         } else {
                             // Failed
                             this.errorMessage = 'Invalid username or password';
