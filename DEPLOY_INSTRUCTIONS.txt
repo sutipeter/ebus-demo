@@ -1,0 +1,57 @@
+========================================
+eBUS DEMO - GitHub Pages Deploy Utasítások
+========================================
+
+1. GITHUB REPOSITORY LÉTREHOZÁSA:
+   - Nyisd meg: https://github.com/new
+   - Repository name: ebus-demo
+   - Description: eBUS Analytics Platform - Interactive Demo
+   - Visibility: Public (GitHub Pages miatt)
+   - NE pipáld be: Add a README / .gitignore / license
+
+2. PUSH A GITHUB-RA:
+   Miután létrehoztad a repo-t, futtasd ezeket:
+
+   cd /Users/sutip/ebus-demo
+   git remote add origin https://github.com/sutipeter/ebus-demo.git
+   git branch -M main
+   git push -u origin main
+
+3. GITHUB PAGES AKTIVÁLÁSA:
+   - Menj a repo Settings oldalára: https://github.com/sutipeter/ebus-demo/settings/pages
+   - Source: Deploy from a branch
+   - Branch: main
+   - Folder: / (root)
+   - Kattints Save
+
+4. VÁRAKOZÁS (2-5 perc):
+   A GitHub automatikusan buildelni fogja a site-ot.
+
+5. LIVE URL:
+   https://sutipeter.github.io/ebus-demo/
+
+   (Ez a repo Settings > Pages oldalon is megjelenik)
+
+6. ELLENŐRZÉS:
+   - Nyisd meg a URL-t böngészőben
+   - Teszteld a 3 view-t (Portal / Admin / Mobile)
+   - Ellenőrizd, hogy a PDF export működik
+
+========================================
+TROUBLESHOOTING
+========================================
+
+Ha nem jelenik meg a site:
+- Várj 5-10 percet (első deploy lassú lehet)
+- Ellenőrizd: Settings > Pages > "Your site is live at..."
+- Nézd meg az Actions tab-ot: esetleges build error-okat
+
+Ha 404 error:
+- Ellenőrizd, hogy az index.html a root-ban van
+- Ellenőrizd a Branch beállítást (main, nem master)
+
+Ha a JavaScript nem működik:
+- Ez nem lesz probléma, mert CDN-ről jönnek a library-k
+- GitHub Pages támogatja a külső CDN-eket
+
+========================================
