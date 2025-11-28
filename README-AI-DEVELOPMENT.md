@@ -54,14 +54,19 @@ Az AI-powered funkciók hozzáadása a demo-hoz:
   - [x] Data sources badges + action buttons
   - [x] Smooth transitions & animations
 
-### 🔄 Folyamatban
-- [ ] AI Chat panel UI
+- [x] **Integration KÉSZ** ✨
+  - [x] Összes AI funkció (PHASE 1-3) integrálva demo.html-be
+  - [x] Deployed to GitHub Pages
+  - [x] Live at: https://sutipeter.github.io/ebus-demo/
 
-### ⏳ Tervezett
-- [ ] AI Chat response logic (keyword matching)
-- [ ] Animations & polish
-- [ ] Testing
-- [ ] Integration visszafe demo.html-be
+### 🔄 Folyamatban
+- Nincs (PHASE 1-3 complete és deployed!)
+
+### ⏳ Tervezett (Opcionális - PHASE 4)
+- [ ] AI Chat panel UI (floating button + chat interface)
+- [ ] AI Chat response logic (keyword matching, 15-20 responses)
+- [ ] Typing indicator animation
+- [ ] Follow-up suggestions
 
 ---
 
