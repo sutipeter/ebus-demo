@@ -45,9 +45,16 @@ Az AI-powered funkciók hozzáadása a demo-hoz:
   - [x] AI Usage Analytics (4 KPI cards + Top 5 Questions)
   - [x] Test AI Modal (full mock response with battery health analysis)
   - [x] Purple gradient branding
+- [x] **PHASE 3: Portal AI Insights Cards KÉSZ** ✨
+  - [x] 8 AI insight types (maintenance, cost, benchmark, anomaly, compliance, weather, performance, driver)
+  - [x] Auto-rotation logic (4 sec intervals, toggleable)
+  - [x] Manual navigation (left/right arrows, progress dots)
+  - [x] Severity-based color coding (warning/critical/success/info)
+  - [x] Type-specific detail templates
+  - [x] Data sources badges + action buttons
+  - [x] Smooth transitions & animations
 
 ### 🔄 Folyamatban
-- [ ] Portal AI Insights cards
 - [ ] AI Chat panel UI
 
 ### ⏳ Tervezett
