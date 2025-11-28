@@ -2702,6 +2702,349 @@
                     </div>
                 </div>
 
+                <!-- AI Configuration Page -->
+                <div v-if="adminPage === 'aiconfig'">
+                    <div class="flex justify-between items-center mb-8">
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-3">
+                                <i class="fas fa-robot text-purple-500"></i>AI Configuration
+                            </h2>
+                            <p class="text-gray-500">Configure AI models, data sources, and analysis capabilities</p>
+                        </div>
+                        <button @click="showTestAIModal = true" class="px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-lg hover:shadow-lg transition">
+                            <i class="fas fa-flask mr-2"></i>Test AI
+                        </button>
+                    </div>
+
+                    <!-- AI Model Settings -->
+                    <div class="glass rounded-2xl p-6 mb-6">
+                        <h3 class="font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                            <i class="fas fa-brain text-purple-500"></i>AI Model Settings
+                        </h3>
+                        <div class="grid grid-cols-2 gap-6">
+                            <!-- Model Selection -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">AI Model</label>
+                                <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none">
+                                    <option>GPT-4 Turbo (Recommended)</option>
+                                    <option>GPT-4</option>
+                                    <option>Claude 3 Opus</option>
+                                    <option>Claude 3 Sonnet</option>
+                                    <option>Gemini Pro 1.5</option>
+                                </select>
+                                <p class="text-xs text-gray-500 mt-1">Higher quality models provide better insights but cost more</p>
+                            </div>
+
+                            <!-- Temperature -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Temperature (Creativity): <span class="text-purple-600 font-semibold">0.7</span></label>
+                                <input type="range" min="0" max="1" step="0.1" value="0.7" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-purple-500">
+                                <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                    <span>Precise (0.0)</span>
+                                    <span>Balanced (0.7)</span>
+                                    <span>Creative (1.0)</span>
+                                </div>
+                            </div>
+
+                            <!-- Max Tokens -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Max Response Tokens</label>
+                                <input type="number" value="2048" min="256" max="8192" step="256" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none">
+                                <p class="text-xs text-gray-500 mt-1">Maximum length of AI responses (256-8192)</p>
+                            </div>
+
+                            <!-- Response Style -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Response Style</label>
+                                <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none">
+                                    <option>Professional & Technical</option>
+                                    <option>Concise & Direct</option>
+                                    <option>Detailed & Explanatory</option>
+                                    <option>Simple & Accessible</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Data Source Priority -->
+                    <div class="glass rounded-2xl p-6 mb-6">
+                        <h3 class="font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                            <i class="fas fa-database text-blue-500"></i>Data Source Priority
+                            <span class="text-xs text-gray-500 font-normal ml-2">(Drag to reorder - highest priority first)</span>
+                        </h3>
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-3 p-3 bg-white border border-gray-200 rounded-lg cursor-move hover:shadow-md transition">
+                                <i class="fas fa-grip-vertical text-gray-400"></i>
+                                <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-lg flex items-center justify-center text-white">
+                                    <i class="fas fa-car"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-medium text-gray-800">OEM Telemetry</p>
+                                    <p class="text-xs text-gray-500">Mercedes, Solaris, BYD direct data</p>
+                                </div>
+                                <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-medium">Priority 1</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-white border border-gray-200 rounded-lg cursor-move hover:shadow-md transition">
+                                <i class="fas fa-grip-vertical text-gray-400"></i>
+                                <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg flex items-center justify-center text-white">
+                                    <i class="fas fa-bus"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-medium text-gray-800">FMS Providers</p>
+                                    <p class="text-xs text-gray-500">ViriCiti, INIT, Optibus data</p>
+                                </div>
+                                <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-medium">Priority 2</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-white border border-gray-200 rounded-lg cursor-move hover:shadow-md transition">
+                                <i class="fas fa-grip-vertical text-gray-400"></i>
+                                <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-lg flex items-center justify-center text-white">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-medium text-gray-800">Benchmark Database</p>
+                                    <p class="text-xs text-gray-500">1,247 e-buses EU-wide aggregated data</p>
+                                </div>
+                                <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-medium">Priority 3</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-white border border-gray-200 rounded-lg cursor-move hover:shadow-md transition">
+                                <i class="fas fa-grip-vertical text-gray-400"></i>
+                                <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center text-white">
+                                    <i class="fas fa-cloud"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-medium text-gray-800">External APIs</p>
+                                    <p class="text-xs text-gray-500">Weather, CVD Compliance, Market Intel</p>
+                                </div>
+                                <span class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-medium">Priority 4</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Analysis Types -->
+                    <div class="glass rounded-2xl p-6 mb-6">
+                        <h3 class="font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                            <i class="fas fa-cogs text-indigo-500"></i>Enabled Analysis Types
+                        </h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <label class="flex items-center gap-3 p-4 bg-white border-2 border-purple-200 rounded-lg cursor-pointer hover:border-purple-400 transition">
+                                <input type="checkbox" checked class="w-5 h-5 text-purple-600 rounded focus:ring-2 focus:ring-purple-500">
+                                <div>
+                                    <p class="font-medium text-gray-800">Predictive Maintenance</p>
+                                    <p class="text-xs text-gray-500">Battery SoH forecasting, component failure prediction</p>
+                                </div>
+                            </label>
+                            <label class="flex items-center gap-3 p-4 bg-white border-2 border-purple-200 rounded-lg cursor-pointer hover:border-purple-400 transition">
+                                <input type="checkbox" checked class="w-5 h-5 text-purple-600 rounded focus:ring-2 focus:ring-purple-500">
+                                <div>
+                                    <p class="font-medium text-gray-800">Benchmarking Analysis</p>
+                                    <p class="text-xs text-gray-500">Fleet vs. industry comparison, best practices</p>
+                                </div>
+                            </label>
+                            <label class="flex items-center gap-3 p-4 bg-white border-2 border-purple-200 rounded-lg cursor-pointer hover:border-purple-400 transition">
+                                <input type="checkbox" checked class="w-5 h-5 text-purple-600 rounded focus:ring-2 focus:ring-purple-500">
+                                <div>
+                                    <p class="font-medium text-gray-800">Cost Optimization</p>
+                                    <p class="text-xs text-gray-500">TCO analysis, charging cost reduction</p>
+                                </div>
+                            </label>
+                            <label class="flex items-center gap-3 p-4 bg-white border-2 border-purple-200 rounded-lg cursor-pointer hover:border-purple-400 transition">
+                                <input type="checkbox" checked class="w-5 h-5 text-purple-600 rounded focus:ring-2 focus:ring-purple-500">
+                                <div>
+                                    <p class="font-medium text-gray-800">Compliance Monitoring</p>
+                                    <p class="text-xs text-gray-500">CVD compliance tracking, regulatory alerts</p>
+                                </div>
+                            </label>
+                            <label class="flex items-center gap-3 p-4 bg-white border-2 border-gray-200 rounded-lg cursor-pointer hover:border-purple-400 transition">
+                                <input type="checkbox" class="w-5 h-5 text-purple-600 rounded focus:ring-2 focus:ring-purple-500">
+                                <div>
+                                    <p class="font-medium text-gray-800">Root Cause Analysis</p>
+                                    <p class="text-xs text-gray-500">Anomaly detection, failure root cause identification</p>
+                                </div>
+                            </label>
+                            <label class="flex items-center gap-3 p-4 bg-white border-2 border-gray-200 rounded-lg cursor-pointer hover:border-purple-400 transition">
+                                <input type="checkbox" class="w-5 h-5 text-purple-600 rounded focus:ring-2 focus:ring-purple-500">
+                                <div>
+                                    <p class="font-medium text-gray-800">Route Optimization</p>
+                                    <p class="text-xs text-gray-500">Range-aware routing, energy-efficient scheduling</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- AI Analytics Dashboard -->
+                    <div class="glass rounded-2xl p-6">
+                        <h3 class="font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                            <i class="fas fa-chart-bar text-green-500"></i>AI Usage Analytics (Last 30 days)
+                        </h3>
+                        <div class="grid grid-cols-4 gap-4 mb-6">
+                            <div class="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-xl p-4 border border-purple-200">
+                                <p class="text-sm text-gray-600 mb-1">Total Queries</p>
+                                <p class="text-3xl font-bold text-purple-600">1,847</p>
+                                <p class="text-xs text-gray-500 mt-1">+23% vs last month</p>
+                            </div>
+                            <div class="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-4 border border-blue-200">
+                                <p class="text-sm text-gray-600 mb-1">Avg Response Time</p>
+                                <p class="text-3xl font-bold text-blue-600">1.8s</p>
+                                <p class="text-xs text-gray-500 mt-1">-0.3s improvement</p>
+                            </div>
+                            <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-4 border border-green-200">
+                                <p class="text-sm text-gray-600 mb-1">User Satisfaction</p>
+                                <p class="text-3xl font-bold text-green-600">94%</p>
+                                <p class="text-xs text-gray-500 mt-1">Based on 342 ratings</p>
+                            </div>
+                            <div class="bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl p-4 border border-orange-200">
+                                <p class="text-sm text-gray-600 mb-1">Insights Generated</p>
+                                <p class="text-3xl font-bold text-orange-600">127</p>
+                                <p class="text-xs text-gray-500 mt-1">Proactive alerts sent</p>
+                            </div>
+                        </div>
+
+                        <!-- Top Questions -->
+                        <div>
+                            <h4 class="font-medium text-gray-700 mb-3">Top 5 Questions (Last 7 days)</h4>
+                            <div class="space-y-2">
+                                <div class="flex items-center justify-between p-3 bg-white rounded-lg border">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 font-bold text-sm">1</div>
+                                        <p class="text-sm text-gray-700">"What is the average battery health of my fleet?"</p>
+                                    </div>
+                                    <span class="text-xs text-gray-500">247 queries</span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-white rounded-lg border">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 font-bold text-sm">2</div>
+                                        <p class="text-sm text-gray-700">"Which buses need maintenance soon?"</p>
+                                    </div>
+                                    <span class="text-xs text-gray-500">183 queries</span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-white rounded-lg border">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 font-bold text-sm">3</div>
+                                        <p class="text-sm text-gray-700">"How does my fleet compare to the benchmark?"</p>
+                                    </div>
+                                    <span class="text-xs text-gray-500">156 queries</span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-white rounded-lg border">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 font-bold text-sm">4</div>
+                                        <p class="text-sm text-gray-700">"Show me energy consumption trends"</p>
+                                    </div>
+                                    <span class="text-xs text-gray-500">142 queries</span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-white rounded-lg border">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 font-bold text-sm">5</div>
+                                        <p class="text-sm text-gray-700">"Predict when BUS-247 battery will degrade to 80%"</p>
+                                    </div>
+                                    <span class="text-xs text-gray-500">128 queries</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Test AI Modal -->
+                <div v-if="showTestAIModal" @click="showTestAIModal = false" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div @click.stop class="bg-white rounded-2xl p-8 max-w-3xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+                        <!-- Modal Header -->
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-2xl font-bold text-gray-800 flex items-center gap-3">
+                                <i class="fas fa-flask text-purple-500"></i>Test AI Assistant
+                            </h3>
+                            <button @click="showTestAIModal = false" class="text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-times text-2xl"></i>
+                            </button>
+                        </div>
+
+                        <!-- Test Query Input -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Test Query</label>
+                            <textarea
+                                rows="3"
+                                placeholder="e.g., What is the average battery health of my fleet?"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none resize-none"
+                            >What is the average battery health of my fleet?</textarea>
+                        </div>
+
+                        <!-- Mock AI Response -->
+                        <div class="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-xl p-6 border-2 border-purple-200 mb-6">
+                            <div class="flex items-start gap-3 mb-4">
+                                <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center text-white flex-shrink-0">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-semibold text-gray-800 mb-2">AI Response</p>
+                                    <p class="text-gray-700 leading-relaxed mb-4">
+                                        Based on the analysis of your fleet's telemetry data from <strong>42 electric buses</strong>, the average battery State of Health (SoH) is currently <strong class="text-purple-600">92.4%</strong>.
+                                    </p>
+                                    <p class="text-gray-700 leading-relaxed mb-4">
+                                        This is <strong class="text-green-600">+7.4% better</strong> than the EU industry benchmark (85.0% average for fleets of similar age and usage patterns).
+                                    </p>
+                                    <div class="bg-white rounded-lg p-4 mb-4">
+                                        <p class="text-sm font-medium text-gray-700 mb-2">Battery Health Distribution:</p>
+                                        <div class="space-y-2">
+                                            <div class="flex items-center gap-2">
+                                                <div class="w-24 text-xs text-gray-600">Excellent (95-100%)</div>
+                                                <div class="flex-1 bg-gray-200 rounded-full h-6 overflow-hidden">
+                                                    <div class="bg-green-500 h-6 flex items-center justify-end pr-2" style="width: 31%">
+                                                        <span class="text-xs text-white font-medium">13 buses</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center gap-2">
+                                                <div class="w-24 text-xs text-gray-600">Good (85-94%)</div>
+                                                <div class="flex-1 bg-gray-200 rounded-full h-6 overflow-hidden">
+                                                    <div class="bg-blue-500 h-6 flex items-center justify-end pr-2" style="width: 57%">
+                                                        <span class="text-xs text-white font-medium">24 buses</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center gap-2">
+                                                <div class="w-24 text-xs text-gray-600">Fair (75-84%)</div>
+                                                <div class="flex-1 bg-gray-200 rounded-full h-6 overflow-hidden">
+                                                    <div class="bg-yellow-500 h-6 flex items-center justify-end pr-2" style="width: 12%">
+                                                        <span class="text-xs text-white font-medium">5 buses</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm text-gray-600 italic">
+                                        ⚠️ <strong>Recommendation:</strong> Monitor BUS-247, BUS-089, and BUS-312 closely - they are approaching 80% SoH threshold within 6 months.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Data Sources Used -->
+                            <div class="border-t border-purple-200 pt-4">
+                                <p class="text-xs font-medium text-gray-600 mb-2">Data Sources Used:</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-3 py-1 bg-white border border-purple-200 rounded-full text-xs text-gray-700">
+                                        <i class="fas fa-car text-blue-500 mr-1"></i>Mercedes eSConnect
+                                    </span>
+                                    <span class="px-3 py-1 bg-white border border-purple-200 rounded-full text-xs text-gray-700">
+                                        <i class="fas fa-bus text-green-500 mr-1"></i>ViriCiti
+                                    </span>
+                                    <span class="px-3 py-1 bg-white border border-purple-200 rounded-full text-xs text-gray-700">
+                                        <i class="fas fa-chart-line text-indigo-500 mr-1"></i>Benchmark DB (1,247 buses)
+                                    </span>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-2">Response time: 1.8s • Confidence: 94%</p>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex gap-3">
+                            <button class="flex-1 px-4 py-3 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-lg hover:shadow-lg transition">
+                                <i class="fas fa-redo mr-2"></i>Run Another Test
+                            </button>
+                            <button @click="showTestAIModal = false" class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Billing Page -->
                 <div v-if="adminPage === 'billing'">
                     <div class="flex justify-between items-center mb-8">
@@ -3497,6 +3840,7 @@
                 ];
 
                 const selectedDataSource = ref(null);
+                const showTestAIModal = ref(false);
 
                 let map = null;
                 let efficiencyChart = null;
@@ -3850,6 +4194,7 @@
                     reports,
                     dataSources,
                     selectedDataSource,
+                    showTestAIModal,
                     getStatusClass,
                     getStatusIcon,
                     getBatteryColor,
