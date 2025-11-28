@@ -2976,6 +2976,8 @@
                 const adminMenu = [
                     { id: 'tenants', label: 'Tenants', icon: 'fas fa-building' },
                     { id: 'users', label: 'Users', icon: 'fas fa-users' },
+                    { id: 'datasources', label: 'Data Sources', icon: 'fas fa-database' },
+                    { id: 'aiconfig', label: 'AI Configuration', icon: 'fas fa-robot' },
                     { id: 'integrations', label: 'Integrations', icon: 'fas fa-plug' },
                     { id: 'billing', label: 'Billing', icon: 'fas fa-credit-card' },
                     { id: 'system', label: 'System', icon: 'fas fa-server' },
@@ -3091,6 +3093,33 @@
                     { id: 4, name: 'CVD Compliance Report', type: 'Compliance', reportType: 'cvd', date: '2024-11-20', status: 'generating', format: 'PDF' },
                     { id: 5, name: 'Cost Optimization Summary', type: 'Financial', reportType: 'energy', date: '2024-11-18', status: 'ready', format: 'Excel' },
                 ];
+
+                // Mock Data Sources
+                const dataSources = [
+                    // OEM Telemetry
+                    { id: 1, name: 'Mercedes eSConnect', category: 'OEM Telemetry', status: 'connected', lastSync: '2 min ago', dataQuality: 98, vehiclesConnected: 24, aiQueriesUsed: 247, icon: 'fas fa-car' },
+                    { id: 2, name: 'Solaris eSConnect', category: 'OEM Telemetry', status: 'connected', lastSync: '5 min ago', dataQuality: 95, vehiclesConnected: 12, aiQueriesUsed: 183, icon: 'fas fa-car' },
+                    { id: 3, name: 'MAN Now API', category: 'OEM Telemetry', status: 'pending', lastSync: 'pending auth', dataQuality: 0, vehiclesConnected: 0, aiQueriesUsed: 0, icon: 'fas fa-car' },
+                    { id: 4, name: 'BYD Fleet', category: 'OEM Telemetry', status: 'connected', lastSync: '8 min ago', dataQuality: 92, vehiclesConnected: 6, aiQueriesUsed: 95, icon: 'fas fa-car' },
+
+                    // FMS Providers
+                    { id: 5, name: 'ViriCiti', category: 'FMS Providers', status: 'connected', lastSync: '1 min ago', dataQuality: 99, vehiclesConnected: 42, aiQueriesUsed: 512, icon: 'fas fa-chart-line' },
+                    { id: 6, name: 'INIT/HanseCom', category: 'FMS Providers', status: 'connected', lastSync: '3 min ago', dataQuality: 97, vehiclesConnected: 42, aiQueriesUsed: 421, icon: 'fas fa-chart-line' },
+                    { id: 7, name: 'Optibus', category: 'FMS Providers', status: 'failed', lastSync: '2 days ago', dataQuality: 45, vehiclesConnected: 0, aiQueriesUsed: 23, icon: 'fas fa-chart-line' },
+                    { id: 8, name: 'SWARCO', category: 'FMS Providers', status: 'connected', lastSync: '12 min ago', dataQuality: 94, vehiclesConnected: 42, aiQueriesUsed: 287, icon: 'fas fa-chart-line' },
+
+                    // External APIs
+                    { id: 9, name: 'OpenWeatherMap', category: 'External APIs', status: 'connected', lastSync: '10 min ago', dataQuality: 100, vehiclesConnected: null, aiQueriesUsed: 156, icon: 'fas fa-cloud-sun' },
+                    { id: 10, name: 'EU CVD Compliance DB', category: 'External APIs', status: 'connected', lastSync: '1 day ago', dataQuality: 100, vehiclesConnected: null, aiQueriesUsed: 89, icon: 'fas fa-balance-scale' },
+                    { id: 11, name: 'Market Intelligence API', category: 'External APIs', status: 'connected', lastSync: '6 hours ago', dataQuality: 88, vehiclesConnected: null, aiQueriesUsed: 342, icon: 'fas fa-chart-bar' },
+
+                    // Charging Networks
+                    { id: 12, name: 'ChargePoint Network', category: 'Charging Networks', status: 'connected', lastSync: '4 min ago', dataQuality: 96, vehiclesConnected: null, aiQueriesUsed: 178, icon: 'fas fa-charging-station' },
+                    { id: 13, name: 'ABB Chargers', category: 'Charging Networks', status: 'connected', lastSync: '7 min ago', dataQuality: 93, vehiclesConnected: null, aiQueriesUsed: 134, icon: 'fas fa-charging-station' },
+                    { id: 14, name: 'Heliox OCPP', category: 'Charging Networks', status: 'connected', lastSync: '15 min ago', dataQuality: 91, vehiclesConnected: null, aiQueriesUsed: 92, icon: 'fas fa-charging-station' },
+                ];
+
+                const selectedDataSource = ref(null);
 
                 let map = null;
                 let efficiencyChart = null;
