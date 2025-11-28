@@ -38,11 +38,15 @@ Az AI-powered funkciók hozzáadása a demo-hoz:
   - [x] Data Source detail modal
   - [x] Status badges (connected/pending/failed)
   - [x] Click handlers + modal open/close
+- [x] **PHASE 2: AI Configuration Panel KÉSZ** ✨
+  - [x] AI Model Settings (model, temperature, tokens, style)
+  - [x] Data Source Priority (4 levels with visual indicators)
+  - [x] Enabled Analysis Types (6 toggleable options)
+  - [x] AI Usage Analytics (4 KPI cards + Top 5 Questions)
+  - [x] Test AI Modal (full mock response with battery health analysis)
+  - [x] Purple gradient branding
 
 ### 🔄 Folyamatban
-- [ ] Admin AI Configuration oldal HTML
-- [ ] AI Configuration oldal HTML
-- [ ] AI Test modal
 - [ ] Portal AI Insights cards
 - [ ] AI Chat panel UI
 
