@@ -397,6 +397,171 @@
                         </div>
                     </div>
 
+                    <!-- AI Insights Cards -->
+                    <div class="mb-8">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-robot text-purple-500 text-xl"></i>
+                                <h3 class="text-lg font-semibold text-gray-800">AI-Powered Insights</h3>
+                                <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-medium">
+                                    {{ aiInsights.length }} insights available
+                                </span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <button
+                                    @click="insightAutoRotate = !insightAutoRotate"
+                                    :class="['px-3 py-1 rounded-lg text-sm font-medium transition', insightAutoRotate ? 'bg-purple-100 text-purple-700' : 'bg-gray-100 text-gray-600']"
+                                >
+                                    <i :class="['fas', insightAutoRotate ? 'fa-pause' : 'fa-play', 'mr-1']"></i>
+                                    {{ insightAutoRotate ? 'Pause' : 'Play' }}
+                                </button>
+                                <div class="flex gap-2">
+                                    <button
+                                        @click="currentInsightIndex = (currentInsightIndex - 1 + aiInsights.length) % aiInsights.length"
+                                        class="w-8 h-8 flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-lg transition"
+                                    >
+                                        <i class="fas fa-chevron-left text-gray-600"></i>
+                                    </button>
+                                    <button
+                                        @click="currentInsightIndex = (currentInsightIndex + 1) % aiInsights.length"
+                                        class="w-8 h-8 flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-lg transition"
+                                    >
+                                        <i class="fas fa-chevron-right text-gray-600"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Insight Card (Auto-rotating) -->
+                        <div class="glass rounded-2xl p-6 border-l-4 transition-all duration-300"
+                            :class="{
+                                'border-yellow-500 bg-yellow-50': aiInsights[currentInsightIndex].severity === 'warning',
+                                'border-red-500 bg-red-50': aiInsights[currentInsightIndex].severity === 'critical',
+                                'border-green-500 bg-green-50': aiInsights[currentInsightIndex].severity === 'success',
+                                'border-blue-500 bg-blue-50': aiInsights[currentInsightIndex].severity === 'info'
+                            }">
+                            <div class="flex items-start gap-4">
+                                <!-- Icon -->
+                                <div class="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0 transition-all"
+                                    :class="{
+                                        'bg-yellow-500 text-white': aiInsights[currentInsightIndex].severity === 'warning',
+                                        'bg-red-500 text-white': aiInsights[currentInsightIndex].severity === 'critical',
+                                        'bg-green-500 text-white': aiInsights[currentInsightIndex].severity === 'success',
+                                        'bg-blue-500 text-white': aiInsights[currentInsightIndex].severity === 'info'
+                                    }">
+                                    <i :class="[aiInsights[currentInsightIndex].icon, 'text-2xl']"></i>
+                                </div>
+
+                                <!-- Content -->
+                                <div class="flex-1">
+                                    <div class="flex items-start justify-between mb-3">
+                                        <div>
+                                            <h4 class="text-xl font-bold text-gray-800 mb-1">
+                                                {{ aiInsights[currentInsightIndex].title }}
+                                            </h4>
+                                            <p class="text-gray-700 font-medium">
+                                                {{ aiInsights[currentInsightIndex].description }}
+                                            </p>
+                                        </div>
+                                        <span class="px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap ml-4"
+                                            :class="{
+                                                'bg-yellow-100 text-yellow-700': aiInsights[currentInsightIndex].severity === 'warning',
+                                                'bg-red-100 text-red-700': aiInsights[currentInsightIndex].severity === 'critical',
+                                                'bg-green-100 text-green-700': aiInsights[currentInsightIndex].severity === 'success',
+                                                'bg-blue-100 text-blue-700': aiInsights[currentInsightIndex].severity === 'info'
+                                            }">
+                                            {{ aiInsights[currentInsightIndex].severity.toUpperCase() }}
+                                        </span>
+                                    </div>
+
+                                    <!-- Details -->
+                                    <div class="bg-white rounded-lg p-4 mb-4">
+                                        <template v-if="aiInsights[currentInsightIndex].type === 'maintenance'">
+                                            <p class="text-sm text-gray-600 mb-2"><strong>Affected Vehicles:</strong> {{ aiInsights[currentInsightIndex].details.vehicles.join(', ') }}</p>
+                                            <p class="text-sm text-gray-600 mb-2"><strong>Timeframe:</strong> {{ aiInsights[currentInsightIndex].details.timeframe }}</p>
+                                            <p class="text-sm text-gray-600"><strong>Confidence:</strong> {{ aiInsights[currentInsightIndex].details.confidence }}%</p>
+                                        </template>
+                                        <template v-else-if="aiInsights[currentInsightIndex].type === 'cost'">
+                                            <p class="text-sm text-gray-600 mb-2"><strong>Current Cost:</strong> {{ aiInsights[currentInsightIndex].details.currentCost }}</p>
+                                            <p class="text-sm text-gray-600 mb-2"><strong>Potential Savings:</strong> {{ aiInsights[currentInsightIndex].details.potentialSavings }}</p>
+                                            <p class="text-sm text-gray-600"><strong>Recommendation:</strong> {{ aiInsights[currentInsightIndex].details.recommendation }}</p>
+                                        </template>
+                                        <template v-else-if="aiInsights[currentInsightIndex].type === 'benchmark'">
+                                            <div class="grid grid-cols-3 gap-4 text-center">
+                                                <div>
+                                                    <p class="text-xs text-gray-500">Your Fleet</p>
+                                                    <p class="text-lg font-bold text-green-600">{{ aiInsights[currentInsightIndex].details.yourFleet }}</p>
+                                                </div>
+                                                <div>
+                                                    <p class="text-xs text-gray-500">EU Average</p>
+                                                    <p class="text-lg font-bold text-gray-600">{{ aiInsights[currentInsightIndex].details.euAverage }}</p>
+                                                </div>
+                                                <div>
+                                                    <p class="text-xs text-gray-500">Difference</p>
+                                                    <p class="text-lg font-bold text-purple-600">{{ aiInsights[currentInsightIndex].details.improvement }}</p>
+                                                </div>
+                                            </div>
+                                        </template>
+                                        <template v-else-if="aiInsights[currentInsightIndex].type === 'anomaly'">
+                                            <p class="text-sm text-gray-600 mb-2"><strong>Vehicle:</strong> {{ aiInsights[currentInsightIndex].details.vehicle }}</p>
+                                            <p class="text-sm text-gray-600 mb-2"><strong>Consumption:</strong> {{ aiInsights[currentInsightIndex].details.consumption }}</p>
+                                            <p class="text-sm text-gray-600"><strong>Possible Causes:</strong> {{ aiInsights[currentInsightIndex].details.possibleCauses.join(', ') }}</p>
+                                        </template>
+                                        <template v-else-if="aiInsights[currentInsightIndex].type === 'compliance'">
+                                            <p class="text-sm text-gray-600 mb-2"><strong>Current Status:</strong> {{ aiInsights[currentInsightIndex].details.currentStatus }}</p>
+                                            <p class="text-sm text-gray-600 mb-2"><strong>EU Target 2025:</strong> {{ aiInsights[currentInsightIndex].details.euTarget2025 }}</p>
+                                            <p class="text-sm font-semibold text-green-600">{{ aiInsights[currentInsightIndex].details.status }}</p>
+                                        </template>
+                                        <template v-else>
+                                            <p class="text-sm text-gray-600" v-for="(value, key) in aiInsights[currentInsightIndex].details" :key="key">
+                                                <strong>{{ key }}:</strong> {{ value }}
+                                            </p>
+                                        </template>
+                                    </div>
+
+                                    <!-- Data Sources & Actions -->
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex flex-wrap gap-2">
+                                            <span class="text-xs text-gray-500 font-medium">Data sources:</span>
+                                            <span
+                                                v-for="source in aiInsights[currentInsightIndex].dataSources"
+                                                :key="source"
+                                                class="px-2 py-1 bg-white border border-purple-200 rounded-full text-xs text-gray-700"
+                                            >
+                                                {{ source }}
+                                            </span>
+                                        </div>
+                                        <div class="flex gap-2">
+                                            <button
+                                                v-for="action in aiInsights[currentInsightIndex].actions"
+                                                :key="action.label"
+                                                @click="portalPage = action.action"
+                                                class="px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-lg hover:shadow-lg transition text-sm font-medium"
+                                            >
+                                                {{ action.label }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Progress Dots -->
+                            <div class="flex items-center justify-center gap-2 mt-4 pt-4 border-t">
+                                <button
+                                    v-for="(insight, index) in aiInsights"
+                                    :key="insight.id"
+                                    @click="currentInsightIndex = index"
+                                    class="transition-all"
+                                    :class="[
+                                        currentInsightIndex === index ? 'w-8 h-2' : 'w-2 h-2',
+                                        currentInsightIndex === index ? 'bg-purple-600' : 'bg-gray-300 hover:bg-gray-400',
+                                        'rounded-full'
+                                    ]"
+                                ></button>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Overall Performance Score -->
                     <div class="grid grid-cols-4 gap-6 mb-8">
                         <div class="col-span-1 glass rounded-2xl p-6 bg-gradient-to-br from-blue-500 to-blue-600 text-white">
@@ -3842,6 +4007,158 @@
                 const selectedDataSource = ref(null);
                 const showTestAIModal = ref(false);
 
+                // AI Insights (Portal Dashboard)
+                const aiInsights = [
+                    {
+                        id: 1,
+                        type: 'maintenance',
+                        severity: 'warning',
+                        icon: 'fas fa-wrench',
+                        title: 'Predictive Maintenance Alert',
+                        description: '3 buses predicted to reach 80% SoH within 6 months',
+                        details: {
+                            vehicles: ['BUS-247', 'BUS-312', 'BUS-089'],
+                            timeframe: '6 months',
+                            confidence: 87
+                        },
+                        actions: [
+                            { label: 'View Details', action: 'battery' },
+                            { label: 'Schedule Maintenance', action: 'schedule' }
+                        ],
+                        dataSources: ['Mercedes eSConnect', 'ViriCiti', 'Benchmark DB']
+                    },
+                    {
+                        id: 2,
+                        type: 'cost',
+                        severity: 'info',
+                        icon: 'fas fa-euro-sign',
+                        title: 'Cost Optimization Opportunity',
+                        description: 'Shift 18% of charging to off-peak hours to save €2,340/month',
+                        details: {
+                            currentCost: '€12,450/month',
+                            potentialSavings: '€2,340/month (18.8%)',
+                            recommendation: 'Delay 6 AM charges to 11 PM-6 AM window'
+                        },
+                        actions: [
+                            { label: 'View Charging Analysis', action: 'charging' },
+                            { label: 'Optimize Schedule', action: 'optimize' }
+                        ],
+                        dataSources: ['ChargePoint', 'Energy Pricing API', 'Benchmark DB']
+                    },
+                    {
+                        id: 3,
+                        type: 'benchmark',
+                        severity: 'success',
+                        icon: 'fas fa-trophy',
+                        title: 'Benchmark Excellence',
+                        description: 'Your fleet ranks in top 12% for energy efficiency (1.18 kWh/km)',
+                        details: {
+                            yourFleet: '1.18 kWh/km',
+                            euAverage: '1.28 kWh/km',
+                            improvement: '+8% better than benchmark'
+                        },
+                        actions: [
+                            { label: 'View Benchmarking', action: 'benchmarking' },
+                            { label: 'Share Report', action: 'share' }
+                        ],
+                        dataSources: ['ViriCiti', 'Benchmark DB (1,247 buses)']
+                    },
+                    {
+                        id: 4,
+                        type: 'anomaly',
+                        severity: 'critical',
+                        icon: 'fas fa-exclamation-triangle',
+                        title: 'Anomaly Detected',
+                        description: 'BUS-142 shows 23% higher consumption than similar vehicles',
+                        details: {
+                            vehicle: 'BUS-142 (Mercedes eCitaro)',
+                            consumption: '1.54 kWh/km (expected: 1.25 kWh/km)',
+                            possibleCauses: ['Battery degradation', 'HVAC malfunction', 'Driving pattern']
+                        },
+                        actions: [
+                            { label: 'Investigate', action: 'investigate' },
+                            { label: 'Schedule Inspection', action: 'inspect' }
+                        ],
+                        dataSources: ['Mercedes eSConnect', 'ViriCiti']
+                    },
+                    {
+                        id: 5,
+                        type: 'compliance',
+                        severity: 'success',
+                        icon: 'fas fa-check-circle',
+                        title: 'CVD Compliance Status',
+                        description: '100% Zero-Emission fleet - exceeds EU 2025 target (45% requirement)',
+                        details: {
+                            currentStatus: '42/42 buses (100% ZE)',
+                            euTarget2025: '45% ZE minimum',
+                            status: 'COMPLIANT - Exceeds target by 55%'
+                        },
+                        actions: [
+                            { label: 'View Compliance Report', action: 'reports' },
+                            { label: 'Download Certificate', action: 'certificate' }
+                        ],
+                        dataSources: ['EU CVD Compliance DB', 'Fleet Registry']
+                    },
+                    {
+                        id: 6,
+                        type: 'weather',
+                        severity: 'info',
+                        icon: 'fas fa-cloud-showers-heavy',
+                        title: 'Weather Impact Forecast',
+                        description: 'Cold front next week: expect 12% range reduction',
+                        details: {
+                            forecast: '-8°C to 2°C (Mon-Fri)',
+                            rangeImpact: '-12% avg range',
+                            recommendation: 'Pre-condition batteries, adjust schedules'
+                        },
+                        actions: [
+                            { label: 'View Weather Analysis', action: 'performance' },
+                            { label: 'Adjust Routes', action: 'routes' }
+                        ],
+                        dataSources: ['OpenWeatherMap', 'Historical Performance']
+                    },
+                    {
+                        id: 7,
+                        type: 'performance',
+                        severity: 'success',
+                        icon: 'fas fa-chart-line',
+                        title: 'Performance Improvement Trend',
+                        description: 'Fleet uptime increased to 96.8% (+4.2% vs last quarter)',
+                        details: {
+                            currentUptime: '96.8%',
+                            lastQuarter: '92.6%',
+                            improvement: '+4.2 percentage points'
+                        },
+                        actions: [
+                            { label: 'View Performance', action: 'performance' },
+                            { label: 'Best Practices', action: 'best-practices' }
+                        ],
+                        dataSources: ['ViriCiti', 'INIT', 'Maintenance Logs']
+                    },
+                    {
+                        id: 8,
+                        type: 'driver',
+                        severity: 'info',
+                        icon: 'fas fa-user-check',
+                        title: 'Driver Efficiency Leader',
+                        description: 'Driver #247 achieves 1.08 kWh/km - 8.5% better than fleet average',
+                        details: {
+                            driver: 'Driver #247',
+                            efficiency: '1.08 kWh/km',
+                            fleetAvg: '1.18 kWh/km',
+                            improvement: '-8.5% consumption'
+                        },
+                        actions: [
+                            { label: 'Driver Leaderboard', action: 'drivers' },
+                            { label: 'Training Recommendations', action: 'training' }
+                        ],
+                        dataSources: ['ViriCiti', 'Driver Telematics']
+                    }
+                ];
+
+                const currentInsightIndex = ref(0);
+                const insightAutoRotate = ref(true);
+
                 let map = null;
                 let efficiencyChart = null;
                 let socChart = null;
@@ -4164,6 +4481,13 @@
                     setTimeout(() => {
                         initCharts();
                     }, 100);
+
+                    // AI Insights auto-rotation
+                    setInterval(() => {
+                        if (insightAutoRotate.value && currentView.value === 'portal' && portalPage.value === 'dashboard') {
+                            currentInsightIndex.value = (currentInsightIndex.value + 1) % aiInsights.length;
+                        }
+                    }, 4000); // Rotate every 4 seconds
                 });
 
                 watch([currentView, portalPage], () => {
@@ -4195,6 +4519,9 @@
                     dataSources,
                     selectedDataSource,
                     showTestAIModal,
+                    aiInsights,
+                    currentInsightIndex,
+                    insightAutoRotate,
                     getStatusClass,
                     getStatusIcon,
                     getBatteryColor,
